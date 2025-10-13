@@ -6,16 +6,16 @@ Uses SGDClassifier for contextual bandits with slow learning.
 
 import json
 import numpy as np
-from sklearn.linear_model import SGDClassifier
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
 from .database import AIModel
+from .lightweight_sgd import LightweightSGDClassifier
 
 class BaseAI:
     """Base AI model using SGDClassifier for contextual bandits."""
     
     def __init__(self):
-        self.model = SGDClassifier(
+        self.model = LightweightSGDClassifier(
             learning_rate='adaptive',
             eta0=0.01,  # Slow learning rate for Base AI
             random_state=42,
@@ -40,7 +40,7 @@ class BaseAI:
         if len(activities) == 0:
             return []
         
-        if not self.is_fitted:
+        if not self.model.is_fitted:
             # Cold start: return random activities
             return np.random.choice(activities, size=min(top_k, len(activities)), replace=False).tolist()
         
@@ -91,7 +91,7 @@ class BaseAI:
             y = [int(reward > 0)]  # Convert reward to binary: 1 if positive, 0 if negative
             
             # Train the model
-            if not self.is_fitted:
+            if not self.model.is_fitted:
                 # First training - need to specify classes
                 self.model.partial_fit(X, y, classes=[0, 1])
             else:
@@ -112,20 +112,20 @@ class BaseAI:
     
     def get_model_weights(self) -> Dict[str, Any]:
         """Get model weights for Session AI initialization."""
-        if not self.is_fitted:
+        if not self.model.is_fitted:
             return None
         
         return {
             "coef": self.model.coef_.tolist() if hasattr(self.model, 'coef_') else None,
             "intercept": self.model.intercept_.tolist() if hasattr(self.model, 'intercept_') else None,
             "classes": self.model.classes_.tolist() if hasattr(self.model, 'classes_') else None,
-            "is_fitted": self.is_fitted
+            "is_fitted": self.model.is_fitted
         }
     
     def save_model(self, db: Session) -> bool:
         """Save the model weights to database."""
         try:
-            if not self.is_fitted:
+            if not self.model.is_fitted:
                 return False
             
             # Get model weights
@@ -133,7 +133,7 @@ class BaseAI:
                 "coef": self.model.coef_.tolist() if hasattr(self.model, 'coef_') else None,
                 "intercept": self.model.intercept_.tolist() if hasattr(self.model, 'intercept_') else None,
                 "classes": self.model.classes_.tolist() if hasattr(self.model, 'classes_') else None,
-                "is_fitted": self.is_fitted
+                "is_fitted": self.model.is_fitted
             }
             
             # Check if model exists in database
@@ -173,7 +173,8 @@ class BaseAI:
             if weights_data.get("classes") is not None:
                 self.model.classes_ = np.array(weights_data["classes"])
             
-            self.is_fitted = weights_data.get("is_fitted", False)
+            self.model.is_fitted = weights_data.get("is_fitted", False)
+            self.is_fitted = self.model.is_fitted
             return True
             
         except Exception as e:

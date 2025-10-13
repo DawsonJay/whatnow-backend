@@ -29,6 +29,7 @@ When you first start working on this project, please follow these steps in order
 - **Purpose**: Understand previous work, decisions made, and current project state
 - **Files to read**: **Read the most recent 5-10 chat records** to get current project state
 - **Note**: Always check for the most recent records first to understand current project state
+- **Storage**: All WhatNow project chat records are stored in the whatnow folder within the portfolio-profile project
 
 ### 6. Read Key Definitions (if needed)
 - **Chat Context**: `/home/james/Documents/portfolio-profile/definitions/chat-context-definition.md`
@@ -103,4 +104,4 @@ This project is part of a larger portfolio strategy for Canadian immigration (Ex
 - Suggestions feel personalized after 20+ sessions
 
 ---
-*This file was created on 2025-10-04-1620 and last updated on 2025-10-04-1620 to help new AI assistants quickly understand the WhatNow project context and get up to speed.*
+*This file was created on 2025-10-04-1620 and last updated on 2025-10-11-0039 to help new AI assistants quickly understand the WhatNow project context and get up to speed.*
