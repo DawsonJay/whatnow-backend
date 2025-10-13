@@ -9,6 +9,7 @@ wheel>=0.42.0
 # Web Framework (latest compatible versions)
 fastapi>=0.110.0
 uvicorn[standard]>=0.27.0
+gunicorn>=21.2.0
 
 # Database (latest compatible versions)
 sqlalchemy>=2.0.25
