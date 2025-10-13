@@ -1,13 +1,16 @@
 #!/bin/bash
 # Build script for WhatNow backend on Render
-# Fixes setuptools and packaging issues
+# Optimized for Python 3.13 compatibility
 
-echo "🔧 Setting up build environment..."
+echo "🔧 Setting up build environment for Python 3.13..."
 
-# Upgrade pip and setuptools first
+# Upgrade pip and build tools first
 pip install --upgrade pip setuptools wheel
 
-# Install requirements
-pip install -r requirements.txt
+# Install build dependencies
+pip install --upgrade build
+
+# Install requirements with no cache to avoid conflicts
+pip install --no-cache-dir -r requirements.txt
 
 echo "✅ Build completed successfully!"
