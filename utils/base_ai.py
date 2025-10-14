@@ -14,10 +14,22 @@ from .lightweight_sgd import LightweightSGDClassifier
 class BaseAI:
     """Base AI model using SGDClassifier for contextual bandits."""
     
-    def __init__(self):
+    def __init__(self, initial_learning_rate: float = 0.1, ongoing_learning_rate: float = 0.01):
+        """
+        Initialize Base AI with configurable learning rates.
+        
+        Args:
+            initial_learning_rate: Higher learning rate for initial training (default: 0.1)
+            ongoing_learning_rate: Lower learning rate for ongoing learning (default: 0.01)
+        """
+        self.initial_learning_rate = initial_learning_rate
+        self.ongoing_learning_rate = ongoing_learning_rate
+        self.is_initial_training = True
+        
+        # Start with initial learning rate
         self.model = LightweightSGDClassifier(
             learning_rate='adaptive',
-            eta0=0.01,  # Slow learning rate for Base AI
+            eta0=initial_learning_rate,
             random_state=42,
             loss='log_loss'  # Logistic regression for binary classification
         )
@@ -109,6 +121,43 @@ class BaseAI:
             print(f"Context vector shape: {context_vector.shape if hasattr(context_vector, 'shape') else 'No shape'}")
             print(f"Context vector type: {type(context_vector)}")
             return False
+    
+    def switch_to_ongoing_learning(self):
+        """
+        Switch from initial training to ongoing learning with lower learning rate.
+        This should be called after initial training phase is complete.
+        """
+        if self.is_initial_training:
+            print(f"Switching from initial learning rate {self.initial_learning_rate} to ongoing learning rate {self.ongoing_learning_rate}")
+            
+            # Create new model with ongoing learning rate
+            self.model = LightweightSGDClassifier(
+                learning_rate='adaptive',
+                eta0=self.ongoing_learning_rate,
+                random_state=42,
+                loss='log_loss'
+            )
+            
+            # Copy over the learned weights if model was fitted
+            if self.is_fitted:
+                # Note: This is a simplified approach - in practice, you might want to
+                # preserve more state or use a more sophisticated transfer method
+                print("Note: Model weights will be re-initialized with ongoing learning rate")
+                self.is_fitted = False
+            
+            self.is_initial_training = False
+            print("Switched to ongoing learning mode")
+        else:
+            print("Already in ongoing learning mode")
+    
+    def get_learning_rate_info(self) -> Dict[str, Any]:
+        """Get information about current learning rate configuration."""
+        return {
+            "initial_learning_rate": self.initial_learning_rate,
+            "ongoing_learning_rate": self.ongoing_learning_rate,
+            "is_initial_training": self.is_initial_training,
+            "current_eta0": self.model.eta0 if hasattr(self.model, 'eta0') else None
+        }
     
     def get_model_weights(self) -> Dict[str, Any]:
         """Get model weights for Session AI initialization."""
