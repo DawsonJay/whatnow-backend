@@ -149,6 +149,53 @@ def list_activities(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to list activities: {str(e)}")
 
+@router.get("/embeddings")
+def get_activities_with_embeddings(
+    db: Session = Depends(get_database_session)
+):
+    """
+    Get all activities with their embeddings for frontend Session AI.
+    
+    Returns:
+        All activities with full embedding data for Session AI initialization
+    """
+    try:
+        # Query all activities from database
+        activities = db.query(Activity).all()
+        
+        if not activities:
+            return {
+                "activities": [],
+                "total": 0,
+                "embedding_dimension": 384
+            }
+        
+        # Parse embeddings and format response
+        activities_with_embeddings = []
+        for activity in activities:
+            try:
+                # Parse embedding from JSON string to array
+                embedding = json.loads(activity.embedding) if activity.embedding else []
+                
+                activities_with_embeddings.append({
+                    "id": activity.id,
+                    "name": activity.name,
+                    "embedding": embedding
+                })
+            except json.JSONDecodeError as e:
+                print(f"Error parsing embedding for activity {activity.id}: {e}")
+                # Skip activities with invalid embeddings
+                continue
+        
+        return {
+            "activities": activities_with_embeddings,
+            "total": len(activities_with_embeddings),
+            "embedding_dimension": len(activities_with_embeddings[0]["embedding"]) if activities_with_embeddings else 384
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get activities with embeddings: {str(e)}")
+
 @router.post("/game/start")
 def start_game(
     context_tags: List[str],
