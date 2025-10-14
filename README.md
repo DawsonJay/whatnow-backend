@@ -63,8 +63,8 @@ WhatNow uses AI to help you discover activities that match your current mood and
 - **Real-time learning** - AI updates after each comparison
 
 ### Deployment
-- **Railway** - hosting platform
-- **Fast deployments** - no heavy AI dependencies in production
+- **Render** - hosting platform
+- **Fast deployments** - lightweight AI dependencies for production
 
 ## Project Status
 
@@ -77,7 +77,7 @@ WhatNow uses AI to help you discover activities that match your current mood and
 - [x] Complete technical specification
 - [x] Design AI-focused database schema
 - [x] Build FastAPI backend with organized structure
-- [x] Deploy to Railway with fast deployments
+- [x] Deploy to Render with fast deployments
 - [x] Create local embedding generation system
 - [ ] Implement Base AI with online learning
 - [ ] Create Session AI in JavaScript frontend
@@ -89,7 +89,7 @@ WhatNow uses AI to help you discover activities that match your current mood and
 ### ✅ **AI Infrastructure**
 - **Simplified database schema** (id, name, embedding) for AI system
 - **FastAPI backend** with organized endpoint structure
-- **Railway deployment** at https://whatnow-production.up.railway.app
+- **Render deployment** at https://whatnow-backend-71bz.onrender.com
 - **Fast deployments** (2-3 minutes) without heavy AI dependencies
 
 ### ✅ **API Endpoints**
@@ -101,7 +101,7 @@ WhatNow uses AI to help you discover activities that match your current mood and
 
 ### ✅ **Local Development Tools**
 - **Embedding generation script** for all 1250 activities
-- **Upload script** for Railway database population
+- **Upload script** for Render database population
 - **Organized code structure** with endpoints/ and utils/ directories
 
 ## Why WhatNow?

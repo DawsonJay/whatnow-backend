@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate activity payload with embeddings for Railway backend
+Generate activity payload with embeddings for Render backend
 """
 
 import json

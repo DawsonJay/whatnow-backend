@@ -64,7 +64,7 @@ When you first start working on this project, please follow these steps in order
 - **Backend**: FastAPI + PostgreSQL + SQLAlchemy
 - **Frontend**: React 18+ + TypeScript + Tailwind CSS
 - **AI/ML**: Contextual bandits, reinforcement learning
-- **Deployment**: Railway + Docker
+- **Deployment**: Render + PostgreSQL
 
 ### User Flow
 1. Set context via sliders (mood, energy, social, time, weather)
@@ -86,14 +86,14 @@ This project is part of a larger portfolio strategy for Canadian immigration (Ex
 - **Phase 2**: AI Implementation (Week 2-3) - Two-layer learning system, contextual bandits
 - **Phase 3**: Frontend (Week 3-4) - React UI with sliders and activity cards
 - **Phase 4**: Integration & Testing (Week 4-5) - End-to-end testing
-- **Phase 5**: Deployment (Week 5-6) - Railway deployment (already deployed!)
+- **Phase 5**: Deployment (Week 5-6) - Render deployment (completed!)
 - **Phase 6**: Self-Training (Week 6+) - Real usage and AI training
 
 ## Phase 1 Achievements
 - ✅ **Database Schema**: PostgreSQL with 72 production-ready activities
 - ✅ **API Endpoints**: Full CRUD operations with comprehensive filtering
 - ✅ **Filtering System**: 100% working - category, energy, duration, location, weather, time, tags, search
-- ✅ **Railway Deployment**: Live API at https://whatnow-production.up.railway.app
+- ✅ **Render Deployment**: Live API at https://whatnow-backend-71bz.onrender.com
 - ✅ **Documentation**: Complete API filtering guide and technical specs
 
 ## Success Metrics
